@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streamlit in Flask</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+            width: 70%;
+            position: relative;
+            background-color: rgb(245, 245, 245);
+        }
+        nav {
+            background-color: rgb(0, 163, 200);
+            color: #fff;
+            padding: 0px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        form {
+            margin-top: 20px;
+            padding: 0 50px;
+        }
+        form input[type="text"] {
+            width: 84%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        form input[type="submit"] {
+            background-color: rgb(0, 163, 200);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            /* width: 10%; */
+        }
+        form input[type="submit"]:hover {
+            background-color: rgb(1, 119, 146);
+        }
+        #content {
+            margin-top: 20px;
+        }
+        h1{
+            color: rgb(0, 163, 200);
+            text-align: center;
+        }
+        h3 {
+            color: rgb(0, 163, 200);
+        }
+
+        table {
+            width: 100%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 10px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: rgb(0, 163, 200);
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .head{
+            margin-top: 50px;
+        }
+        span{
+            border: 1px solid rgb(0, 163, 200);
+            padding: 3px 6px;
+            border-radius: 50%;
+            background-color: rgb(0, 163, 200);
+            color: white;
+        }
+        .steps h3{
+            font-size: 15px;
+        }
+        .steps p{
+            font-size: 15px;
+            margin-left: 25px;
+            margin-top: -7px;
+            margin-bottom: 10px;
+        }
+        .step{
+            margin-top: 20px;
+        }
+        .step p{
+            font-size: 15px;
+            margin-left: 50px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        li{
+            margin-left: 25px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h3>Atendance System</h3>
+        <div>
+            <!-- <a href="/update_count">update_count</a> -->
+            <a href="/register_face">Register Face</a>
+            <a href="/Take_attendance">Take Attendance</a>
+            <a href="/attendance">Report</a>
+        </div>
+    </nav>
+    {% if register %}
+    <form method="post">
+        <input type="text" placeholder="Eg. John Doe" name="name">
+        <input type="submit" value="Register Face">
+    </form>
+    {% endif %}
+    <div id="content">Registred Sucessfully</div>
+    <script>
+        setInterval(function() {
+            fetch('/update_count')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('content').innerHTML = data;
+                });
+        }, 2000);
+    </script>
+    {% if prediction %}
+        <h1>{{prediction}}</h1>
+    {% endif %}
+    {% if table %}
+        <h1>Attendance Report</h1>
+        {{ table|safe }}
+    {% endif %}
+
+    <h1 class="head">How to use</h1>
+    <hr>
+
+    <div class="">
+        <div class="steps">
+            <h3><span>1</span> Register Face</h3>
+            <p>This is where you register your face with your name as a student.</p>
+        </div>
+        <div class="steps">
+            <h3><span>2</span>Take Attendance</h3>
+            <p>After your face has been registered, then you can proceed to take attendance using facial recognition.</p>
+        </div>
+        <div class="steps">
+            <h3><span>3</span> Take a shot</h3>
+            <p>Once the system has makrked your name against your face, then press the letter "o" on your keyboard complete the process.</p>
+        </div>
+        <div class="steps">
+            <h3><span>4</span> Report</h3>
+            <p>This is where the report of all students who took the attendance will be displayed.</p>
+        </div>
+</body>
+</html>
